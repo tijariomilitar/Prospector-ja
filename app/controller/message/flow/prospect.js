@@ -4,15 +4,9 @@
 
 let basic_info = `
 Informações de contexto:
-Seu nome é Henrique;
+Seu nome é Vitor;
 Você está fazendo contato ativo para prospectar o cliente através de um fluxo de mensagens;
-Você é representante da Cotálogo, uma empresa provedora de catálogos digitais;
-O catálogo custa R$49,90 por mês, o cliente recarrega e utiliza por 30 dias;
-Podem ser cadastrados até 500 produtos.
-O cliente tem total controle do catálogo através da plataforma podendo adicionar e atualizar os produtos por sozinho;
-O catálogo permite usar o nome da empresa do cliente no link;
-Ao finalizar o pedido no catálogo o cliente é redirecionado para seu Whatsapp apenas para fazer o pagamento.
-Para entregar o catálogo com todos os produtos cadastrados tem um custo adicional de R$50,00 por cada 100 produtos cadastrados.
+Você é representante da JA Rio Militar, uma empresa fabricante e distribuidora de artigos militares;
 
 Você receberá como informação base:
 1. O histórico de mensagens;
@@ -37,25 +31,11 @@ function flowSteps(contact) {
   return [`
 ${saudacaoPorHorario()} é da empresa ${contact.business}?
   `, `
-Oi, meu nome é Henrique, represento a Cotálogo e nossa proposta é aprimorar a apresentação, divulgação e atendimento das empresas através de um catálogo digital como esse:\n\n
+Olá, meu nome é Vitor, represento a JA Rio Militar, somos fabricantes e fornecedores de artigos militares de alta qualidade, veja o que os clientes dizem sobre nossos produtos.\n\n
 
 ${contact.segment}
   `, `
-Esse catálogo é criado através de nossa plataforma que pode ser acessada pelo celular ou computador.\n\n
-
-Através da plataforma você tem total controle do catálogo, podendo adicionar e atualizar os produtos por conta própria.\n\n
-
-Ao finalizar o pedido no catálogo o cliente é redirecionado para o seu Whatsapp apenas para fazer o pagamento com você.\n\n
-
-O catálogo custa R$49,90 por mês mas não exige assinatura, você recarrega e utiliza por 30 dias.\n\n
-
-Nós daremos consultoria gratuita durante a construção do seu catálogo.\n\n
-
-${contact.name ? 'Posso criar um esboço do seu catálogo, gostaria de ver como fica?' : 'Qual é o seu nome?'}
-  `, `
-Eu posso criar um esboço do seu catálogo, gostaria de ver como fica?
-  `, `
-Me envia por favor a foto da sua logomarca e de 2 produtos com nome e preço.
+Qual é o seu nome?
   `]
 };
 
@@ -206,8 +186,8 @@ Valores true|false devem ser booleanos e não strings.
 
 "name": Identificar se o cliente informou o nome dele de pessoa física. Não retornar o nome da empresa ou razão social, caso o cliente não tenha informado seu nome retorne false.
 
-"intention": Identificar através da resposta do cliente no histórico a intenção do cliente em relação se ele tem interesse no catálogo.
-1 - Interessado → inclui “sim”, “sim, mas…”, elogios ("Lindo", "Bonito", "Bacana").
+"intention": Identificar através da resposta do cliente no histórico a intenção do cliente em relação se ele tem interesse em conhecer mais.
+1 - Interessado → inclui “sim”, “sim, mas…”, elogios ("Legal", "Bacana").
 2 - Indireto → Inclui interesse indireto, curiosidade (“como funciona?”, "Quanto custa?", "qual valor?", "Valores", "Orçamento").
 3 - Indefinido → inclui cumprimentos, respostas sociais (“boa tarde”, “posso ajudar?”, "oi").
 4 - Indefinido momentâneo → O cliente não verá o catálogo no momento ("ainda não ví", "já te retorno", "vou ver").
@@ -220,8 +200,7 @@ Valores true|false devem ser booleanos e não strings.
 Atenção ao valor de "output" pois será enviado diretamente para o cliente sem tratamentos, exceto se "reply" for false.
 
 Caso 1 Interessado → 
-Caso o cliente diga que tem interesse para o próximo ano/mês envie mensagem dizendo que irá chamar no ano novo (e pergunte o nome caso ainda não tenha).
-  Envie a próxima mensagem do fluxo com a palavra "Legal" no início: "Legal, esse cat...";
+  Envie a próxima mensagem do fluxo com a palavra "Legal" no início: "Legal, qual é o seu nome?";
   "reply": true
   "flow_step": "next"
 

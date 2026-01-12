@@ -230,21 +230,8 @@
 
     prospect_segment.append(lib.element.create("option", {
       selected: true,
-      disabled: true,
-      value: "",
-    }, "Selecionar segmento"));
-
-    prospect_segment.append(lib.element.create("option", {
-      value: "suafloricultura.cotalogo.com",
-    }, "Floricultura"));
-
-    prospect_segment.append(lib.element.create("option", {
-      value: "suajoalheria.cotalogo.com",
-    }, "Joalheria"));
-
-    prospect_segment.append(lib.element.create("option", {
-      value: "seusexshop.cotalogo.com",
-    }, "Sexshop"));
+      value: "https://www.instagram.com/jariomilitar",
+    }, "JA Rio Militar"));
 
     const users = JSON.parse('<%- JSON.stringify(users) %>');
     console.log(users);
@@ -259,17 +246,17 @@
 
     seller_select.append(lib.element.create("option", {
       selected: true,
-      disabled: true,
-      value: "",
-    }, "Selecionar vendedor"));
+      // disabled: true,
+      value: 1,
+    }, "Admin"));
 
-    for (let i in users) {
-      let user = users[i];
+    // for (let i in users) {
+    //   let user = users[i];
 
-      seller_select.append(lib.element.create("option", {
-        value: user.id,
-      }, user.name));
-    };
+    //   seller_select.append(lib.element.create("option", {
+    //     value: user.id,
+    //   }, user.name));
+    // };
 
     let submit_button = lib.element.create("input", {
       type: "submit",

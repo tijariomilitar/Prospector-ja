@@ -12,8 +12,7 @@ function randomizeMessage(message) {
       role: "system",
       content: `
 Reescreva a mensagem abaixo de formas diferentes para evitar filtros antispam. 
-ATENÇÃO!!! -> A única regra é que as palavras 'proposta', 'aprimorar', 'apresentação', 'divulgação' e 'atendimento' não podem ser alteradas por sinônimos.
-Também não quero que utilize a palavra: 'Missão'
+ATENÇÃO!!! -> A única regra é que as palavras 'fabricantes', 'fornecedores', 'artigos militares' não podem ser alteradas por sinônimos.
 
 Frase para ser reescrita:
 ${message}
@@ -78,6 +77,7 @@ async function sendByAi(contact) {
 
   let gpt_response = JSON.parse(response);
 
+  // Pergunta se é da empresa
   if (contact.flow_step == 0) {
     contact.flow_step = parseInt(contact.flow_step) + 1;
 
@@ -101,7 +101,7 @@ async function sendByAi(contact) {
     return true;
   }
 
-  // O cliente tem interesse no catálogo?
+  // Pergunta se o cliente tem interesse
   else if (contact.flow_step == 1) {
     if (gpt_response.name) {
       contact.name = gpt_response.name;
@@ -142,7 +142,7 @@ async function sendByAi(contact) {
       if (gpt_response.flow_step == "next") {
         await sleep(randInt(3127, 7489));
         await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
-          text: "Gostaria de ter um personalizado para sua empresa?"
+          text: "Gostaria de conhecer mais sobre nosso programa de parceria com lojistas?"
         });
       }
 
@@ -154,8 +154,10 @@ async function sendByAi(contact) {
     return false;
   }
 
-  // O cliente tem interesse no catálogo?
+  // O cliente tem interesse?
   else if (contact.flow_step == 2) {
+    contact.autochat = 0;
+
     if (gpt_response.name) {
       contact.name = gpt_response.name;
     }
@@ -164,9 +166,6 @@ async function sendByAi(contact) {
       contact.status = "interessado";
       contact.notify = 1;
 
-      if (contact.name) { contact.flow_step = parseInt(contact.flow_step) + 2; }
-      else { contact.flow_step = parseInt(contact.flow_step) + 1; }
-
       for (const [sessionID, ws] of activeWebSockets.entries()) {
         let data = {
           jid: contact.jid,
@@ -176,11 +175,10 @@ async function sendByAi(contact) {
 
         if (ws.readyState === 1) { ws.send(JSON.stringify({ data })); }
       };
-
     }
 
     if (gpt_response.flow_step == "exit") {
-      contact.autochat = 0;
+      // contact.autochat = 0;
     }
 
     if (gpt_response.reply == true) {
@@ -197,89 +195,89 @@ async function sendByAi(contact) {
 
     return false;
   }
+  //
+  // // Informações / Perguntar o nome ou Oferecer esboço
+  // else if (contact.flow_step == 3) {
+  //   if (gpt_response.name) {
+  //     contact.name = gpt_response.name;
+  //   }
 
-  // Informações / Perguntar o nome ou Oferecer esboço
-  else if (contact.flow_step == 3) {
-    if (gpt_response.name) {
-      contact.name = gpt_response.name;
-    }
+  //   if (gpt_response.flow_step == "next") {
+  //     contact.status = "interessado";
+  //     contact.notify = 1;
+  //     contact.flow_step = parseInt(contact.flow_step) + 1;
 
-    if (gpt_response.flow_step == "next") {
-      contact.status = "interessado";
-      contact.notify = 1;
-      contact.flow_step = parseInt(contact.flow_step) + 1;
+  //     for (const [sessionID, ws] of activeWebSockets.entries()) {
+  //       let data = {
+  //         jid: contact.jid,
+  //         notify_alert: true,
+  //         interested: true
+  //       };
 
-      for (const [sessionID, ws] of activeWebSockets.entries()) {
-        let data = {
-          jid: contact.jid,
-          notify_alert: true,
-          interested: true
-        };
+  //       if (ws.readyState === 1) { ws.send(JSON.stringify({ data })); }
+  //     };
+  //   }
 
-        if (ws.readyState === 1) { ws.send(JSON.stringify({ data })); }
-      };
-    }
+  //   if (gpt_response.flow_step == "exit") {
+  //     contact.autochat = 0;
+  //   }
 
-    if (gpt_response.flow_step == "exit") {
-      contact.autochat = 0;
-    }
+  //   if (gpt_response.reply == true) {
+  //     await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
+  //       text: gpt_response.output
+  //     });
 
-    if (gpt_response.reply == true) {
-      await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
-        text: gpt_response.output
-      });
+  //     contact.update();
 
-      contact.update();
+  //     return true;
+  //   }
 
-      return true;
-    }
+  //   contact.update();
 
-    contact.update();
+  //   return false;
+  // }
 
-    return false;
-  }
+  // // O cliente tem interesse no esboço?
+  // else if (contact.flow_step == 4) {
+  //   if (gpt_response.name) {
+  //     contact.name = gpt_response.name;
+  //   }
 
-  // O cliente tem interesse no esboço?
-  else if (contact.flow_step == 4) {
-    if (gpt_response.name) {
-      contact.name = gpt_response.name;
-    }
+  //   if (gpt_response.flow_step == "next") {
+  //     contact.status = "demonstração";
+  //     contact.notify = 1;
+  //     contact.flow_step = parseInt(contact.flow_step) + 1;
+  //     contact.autochat = 0;
 
-    if (gpt_response.flow_step == "next") {
-      contact.status = "demonstração";
-      contact.notify = 1;
-      contact.flow_step = parseInt(contact.flow_step) + 1;
-      contact.autochat = 0;
+  //     for (const [sessionID, ws] of activeWebSockets.entries()) {
+  //       let data = {
+  //         jid: contact.jid,
+  //         notify_alert: true,
+  //         interested: true
+  //       };
 
-      for (const [sessionID, ws] of activeWebSockets.entries()) {
-        let data = {
-          jid: contact.jid,
-          notify_alert: true,
-          interested: true
-        };
+  //       if (ws.readyState === 1) { ws.send(JSON.stringify({ data })); }
+  //     };
+  //   }
 
-        if (ws.readyState === 1) { ws.send(JSON.stringify({ data })); }
-      };
-    }
+  //   if (gpt_response.flow_step == "exit") {
+  //     contact.autochat = 0;
+  //   }
 
-    if (gpt_response.flow_step == "exit") {
-      contact.autochat = 0;
-    }
+  //   if (gpt_response.reply == true) {
+  //     await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
+  //       text: gpt_response.output
+  //     });
 
-    if (gpt_response.reply == true) {
-      await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
-        text: gpt_response.output
-      });
+  //     contact.update();
 
-      contact.update();
+  //     return true;
+  //   }
 
-      return true;
-    }
+  //   contact.update();
 
-    contact.update();
-
-    return false;
-  }
+  //   return false;
+  // }
 };
 
 module.exports = sendByAi;
