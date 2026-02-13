@@ -35,8 +35,11 @@ Olá, meu nome é Vitor, represento a JA Rio Militar, somos fabricantes e fornec
 
 ${contact.segment}
   `, `
-Qual é o seu nome?
-  `]
+Nós trabalhamos principalmente com capas de colete, bornais, cintos e coldres mas temos uma grande variedade de outros acessórios.
+
+Em nosso catálogo você consegue ver nosso portifólio completo.
+
+https://jariomilitar.cotalogo.com/representantes`]
 };
 
 const flow = [
@@ -200,7 +203,7 @@ Valores true|false devem ser booleanos e não strings.
 Atenção ao valor de "output" pois será enviado diretamente para o cliente sem tratamentos, exceto se "reply" for false.
 
 Caso 1 Interessado → 
-  Envie a próxima mensagem do fluxo com a palavra "Legal" no início: "Legal, qual é o seu nome?";
+  Envie a próxima mensagem do fluxo com a palavra "Legal" no início: "Legal, nós trabalhamos princ...";
   "reply": true
   "flow_step": "next"
 

@@ -142,7 +142,7 @@ async function sendByAi(contact) {
       if (gpt_response.flow_step == "next") {
         await sleep(randInt(3127, 7489));
         await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
-          text: "Gostaria de conhecer mais sobre nosso programa de parceria com lojistas?"
+          text: "Tem procurado novos fornecedores para sua empresa?"
         });
       }
 
@@ -184,6 +184,13 @@ async function sendByAi(contact) {
     if (gpt_response.reply == true) {
       await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
         text: gpt_response.output
+      });
+
+      await sleep(randInt(3127, 7489));
+      await getSession(contact.seller_id).sock.sendMessage(contact.jid, {
+        text: gpt_response.name 
+        ? "Tem procurado algum produto em específico?"
+        : "Qual é o seu nome?"
       });
 
       contact.update();

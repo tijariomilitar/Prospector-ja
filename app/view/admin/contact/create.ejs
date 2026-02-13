@@ -287,8 +287,15 @@
       }, "none");
 
       console.log(response);
+      if(!response) return;
 
-      new Audio("/audios/tin_tin.mp3").play();
+      lib.message("Cidade cadastrada!");
+
+      cidade_input.value = "";
+      bairro_input.value = "";
+      prospect_url.value = "";
+
+      // new Audio("/audios/tin_tin.mp3").play();
     });
 
     return prospect_form;
