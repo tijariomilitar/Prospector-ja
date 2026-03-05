@@ -1,3 +1,6 @@
+const db = require('../../../config/connection');
+const lib = require('jarmlib');
+
 const Queue = function () {
   this.id;
   this.contact_jid;
