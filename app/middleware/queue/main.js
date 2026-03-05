@@ -238,6 +238,21 @@ async function processQueue() {
       qProc.status = "Processando";
       await qProc.update();
 
+      // Remove duplicity from sync
+      let contact_queues = await Queue.filter({
+        in_params: {
+          keys: ["status"],
+          values: [[["Pendente"]]]
+        },
+        strict_params: {
+          keys: ['queue.contact_jid'],
+          values: [msg.contact_jid]
+        }
+      });
+      for (let i in contact_queues) {
+        await Queue.delete(contact_queues[i].id);
+      };
+
       const profile = pickProfile();
       await sleep(randInt(800, 3000));
 
