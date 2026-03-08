@@ -165,8 +165,6 @@
       seller_id: contact_list_form.user.value
     });
 
-    let sender_icon = lib.element.icon("b2-3", "50", "images/icon/");
-
     contact_list_box.append(lib.element.create("input", {
       type: "number",
       id: "contact-list-result",
@@ -206,7 +204,9 @@
       let send_icon = lib.element.icon("b6", 30, "/images/icon/send.png")
       send_icon.id = `send-icon-contact-${contact_list.jid}`;
       if (!contact_list.sent_datetime) {
-        contact_list_div.append(send_icon);
+        if(contact_list.seller_id != 1) {
+          contact_list_div.append(send_icon);
+        }
       }
 
       if (contact_list.status == "Concluído") {
@@ -264,7 +264,6 @@
         if (!response) { return; }
 
         send_icon.remove();
-        // lib.message(response.done);
       });
     });
   };
